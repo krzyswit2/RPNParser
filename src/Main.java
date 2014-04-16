@@ -114,6 +114,8 @@ public class Main {
 		}
 	public static String RPN(String arg0){
 		String arg1;
+		if(arg0.equals(""))
+			return null;
 		if(arg0.charAt(arg0.length()-1) == ' ')
 			arg1 = arg0;
 		else
@@ -173,6 +175,54 @@ public class Main {
 		}
 		return t.replaceAll("  ", " ");
 	}
+	public static String transform(String arg0){
+		String temp = "", ptemp = "", ntemp = "";
+		int isInParentheses = 0;
+		for(int i = 0;i < arg0.length();i++){
+			if(Character.isDigit(arg0.charAt(i))){
+				ntemp += arg0.charAt(i);
+				if(i == arg0.length() - 1)
+					temp += ntemp;
+			}
+			else if(isOperator(arg0.charAt(i)) && arg0.charAt(i) != '-'){
+				if(!"".equals(ntemp)){
+					temp += ntemp;
+					ntemp = "";
+				}
+				temp += (" " + arg0.charAt(i) + " ");
+			}else if(arg0.charAt(i) == '('){
+				temp += arg0.charAt(i);
+				isInParentheses++;
+			}else if(arg0.charAt(i) == ')'){
+				temp += (arg0.charAt(i) + " ");
+				isInParentheses--;
+			}else if(arg0.charAt(i) == '-'){
+				int j = i+1;
+				for(;j < arg0.length();j++){
+					if(isOperator(arg0.charAt(j)) && (isInParentheses != 0))
+						break;
+					ptemp += arg0.charAt(j);
+				}
+				ptemp = transform(ptemp);
+				temp += ("+ (0 - " + ptemp + ") ");
+				ptemp = "";
+				i += j;
+			}
+		}
+		return temp;
+	}
+	private static Boolean isOperator(char arg0){
+		switch(arg0){
+		case '+':
+		case '-':
+		case '*':
+		case '/':
+		case '%':
+		case '^':
+			return true;
+		}
+		return false;
+	}
 	public static void main(String[] args) throws IOException {
 		String expression = "";
 		Character choise = '\0';
@@ -180,12 +230,10 @@ public class Main {
 		InputStreamReader reader = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(reader);
 		expression = br.readLine();
-		System.out.println(RPN(expression) + "\nDo you want me to calculate it?[Y/N]");
+		System.out.println("\n" + RPN(transform(expression)) + "\nDo you want me to calculate it?[Y/N]");
 		choise = (char) System.in.read();
 		if(Character.toLowerCase(choise) == 'y'){
 			System.out.println(calculateRPN(RPN(expression)));
-		}else if(Character.toLowerCase(choise) == 'x'){
-			return;
 		}
 	}
 }

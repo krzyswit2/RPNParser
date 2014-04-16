@@ -3,4 +3,6 @@ bin
 .settings/
 .classpath
 .project
+bin/
 *.jar
+*.rej
