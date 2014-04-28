@@ -1,6 +1,7 @@
 *.class
 bin
 .settings/
+.git/
 .classpath
 .project
 bin/
