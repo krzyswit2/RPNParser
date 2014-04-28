@@ -1,11 +1,5 @@
 RPNParser
 
-<<<<<<< HEAD
-====
+===
 
-This is a program that converts infix notation to postfix notation and calculates it.
-=======
-======
-
-Hi!
->>>>>>> ab541ec57a72d44ac30b1d1eab0d561b08189642
+This parser converts equasion is infix notation (e.g. 2*3+10/3) to postfix (or Reversed Polish) notation (e.g. 2 3 * 10 3 / +)
